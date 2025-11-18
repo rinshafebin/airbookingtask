@@ -5,7 +5,6 @@ from django.conf import settings
 
 @shared_task
 def send_user_approval_email(user_email):
-    
     subject = "Your account has been approved!"
     message = "Congratulations! Your account is now approved and you can log in."
     send_mail(

@@ -12,11 +12,7 @@ class User(AbstractUser):
         ('approved', 'Approved'),
         ('rejected', 'Rejected'),
     ]
-    approval_status = models.CharField(
-        max_length=10,
-        choices=APPROVAL_STATUS_CHOICES,
-        default='pending'
-    )
+    approval_status = models.CharField(max_length=10,choices=APPROVAL_STATUS_CHOICES,default='pending')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -62,3 +58,5 @@ class OTP(models.Model):
             models.Index(fields=['code']),
         ]
         ordering = ['-created_at']
+        
+        

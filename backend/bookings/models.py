@@ -9,22 +9,10 @@ class Booking(models.Model):
         ("Failed", "Failed"),
     ]
 
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="bookings"
-    )
-    flight = models.ForeignKey(
-        Flight,
-        on_delete=models.CASCADE,
-        related_name="bookings"
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="bookings")
+    flight = models.ForeignKey(Flight,on_delete=models.CASCADE,related_name="bookings")
     seats = models.PositiveIntegerField(default=1)
-    payment_status = models.CharField(
-        max_length=10,
-        choices=PAYMENT_CHOICES,
-        default="Pending"
-    )
+    payment_status = models.CharField(max_length=10,choices=PAYMENT_CHOICES,default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -2,7 +2,7 @@ import logging
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from celery import shared_task
-from .utils import fetch_flight_data
+from flights.utils import fetch_flight_data
 
 logger = logging.getLogger(__name__)
 last_flight_data = {}
@@ -15,13 +15,16 @@ def fetch_and_broadcast_flight_updates():
         data = fetch_flight_data()
         flight_states = data.get("states", [])[:50]
 
-        current_flights = {str(f[0]): {
-            "icao24": f[0],
-            "callsign": f[1].strip() if f[1] else "",
-            "lon": f[5],
-            "lat": f[6],
-            "altitude": f[7],
-        } for f in flight_states}
+        current_flights = {
+            str(f[0]): {
+                "icao24": f[0],
+                "callsign": f[1].strip() if f[1] else "",
+                "lon": f[5],
+                "lat": f[6],
+                "altitude": f[7],
+            }
+            for f in flight_states
+        }
 
         if current_flights != last_flight_data:
             last_flight_data = current_flights

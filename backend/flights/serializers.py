@@ -5,7 +5,7 @@ class FlightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flight
         fields = '__all__'
-        read_only_fields = ('id',)
+        read_only_fields = ['id']
 
     def validate(self, data):
         if data["departure_time"] >= data["arrival_time"]:

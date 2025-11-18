@@ -169,7 +169,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=config('REFRESH_TOKEN_LIFETIME_DAYS', cast=int)),
 }
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0' 
+CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://localhost:6379/0')
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -196,12 +196,10 @@ CHANNEL_LAYERS = {
 }
 
 CELERY_BEAT_SCHEDULE = {
-    'fetch-flight-data-every-10-seconds': {
+    'fetch-flight-data-every-2-minutes': {
         'task': 'flights.tasks.fetch_and_broadcast_flight_updates',
-        'schedule': 10.0,
+        'schedule': 120.0, 
     },
 }
 
-OPENSKY_CLIENT_ID = config('OPENSKY_CLIENT_ID')
-OPENSKY_CLIENT_SECRET = config('OPENSKY_CLIENT_SECRET')
 

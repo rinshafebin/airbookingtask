@@ -25,12 +25,11 @@ class RegisterView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"message": "User registered successfully. Waiting for admin approval."},
-                        status=status.HTTP_201_CREATED)
+        status=status.HTTP_201_CREATED)
 
 
 class LoginView(APIView):
     def post(self, request):
-        print(request.data)
         serializer = LoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
@@ -45,7 +44,6 @@ class LoginView(APIView):
             "access": str(refresh.access_token),
             "refresh": str(refresh),
         })
-
 
 
 class PendingUserListView(APIView):

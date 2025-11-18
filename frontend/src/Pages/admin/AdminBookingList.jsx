@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import axios from "axios";
-import BookingStats from '../../Components/Booking/BookingStats'
-import BookingSearchFilter from '../../Components/Booking/BookingSearchFilter'
+import BookingStats from '../../Components/Booking/BookingStats';
+import BookingSearchFilter from '../../Components/Booking/BookingSearchFilter';
 import BookingTable from "../../Components/Booking/BookingTable";
 
 export default function AdminBookingList() {
@@ -21,7 +21,7 @@ export default function AdminBookingList() {
           },
         });
         setBookings(res.data);
-        console.log(res.data)
+        console.log(res.data);
       } catch (err) {
         console.error("Error fetching bookings:", err.response?.data || err.message);
         alert("Failed to load bookings.");
@@ -33,22 +33,25 @@ export default function AdminBookingList() {
     fetchBookings();
   }, []);
 
-  const filteredBookings = bookings.filter((b) => {
-    const username = b.user?.username || "";
-    const flightNumber = b.flight_details?.flight_number || "";
-    const paymentStatus = b.payment_status || "";
+  const filteredBookings = useMemo(() => {
+    return bookings.filter((b) => {
+      const username = b.user?.username || "";
+      const flightNumber = b.flight_details?.flight_number || "";
+      const paymentStatus = b.payment_status || "";
 
-    const matchesSearch =
-      username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      flightNumber.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch =
+        username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        flightNumber.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesFilter =
-      filterStatus === "all" || paymentStatus.toLowerCase() === filterStatus.toLowerCase();
+      const matchesFilter =
+        filterStatus === "all" || paymentStatus.toLowerCase() === filterStatus.toLowerCase();
 
-    return matchesSearch && matchesFilter;
-  });
+      return matchesSearch && matchesFilter;
+    });
+  }, [bookings, searchTerm, filterStatus]);
 
-  const getStatusColor = (status) => {
+
+  const getStatusColor = useCallback((status) => {
     switch ((status || "").toLowerCase()) {
       case "completed":
         return "bg-emerald-100 text-emerald-700 border-emerald-200";
@@ -59,7 +62,7 @@ export default function AdminBookingList() {
       default:
         return "bg-gray-100 text-gray-700 border-gray-200";
     }
-  };
+  }, []);
 
   if (loading) {
     return (

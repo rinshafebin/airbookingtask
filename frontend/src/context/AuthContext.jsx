@@ -12,6 +12,7 @@ const initialState = {
   token: localStorage.getItem('access_token') || null,
 };
 
+
 function authReducer(state, action) {
   switch (action.type) {
     case 'LOGIN':

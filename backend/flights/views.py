@@ -31,9 +31,12 @@ class FlightListCreateAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = FlightSerializer(data=request.data,many=True)
+        print("data:", request.data)
+        serializer = FlightSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        print("errors:",serializer.errors)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
