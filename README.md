@@ -19,6 +19,7 @@ A comprehensive flight booking platform demonstrating full-stack development cap
 ## Table of Contents
 
 - [Project Overview](#-project-overview)
+- [Screenshots](#-Screenshots)
 - [Key Features](#-key-features)
 - [Tech Stack](#-tech-stack)
 - [External APIs](#-external-apis)
